@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: manovecina
+    runtime: docker
+    plan: free
+    branch: main
+    autoDeploy: false        # el despliegue lo dispara GitHub Actions (deploy hook)
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false          # se captura a mano (php artisan key:generate --show)
+      - key: APP_URL
+        sync: false          # URL pública del servicio en Render
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SEED_DEMO
+        value: "true"       # carga el catálogo de ejemplo al iniciar

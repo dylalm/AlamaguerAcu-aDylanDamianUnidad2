@@ -1,66 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ManoVecina
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plataforma web vecinal para prestar herramientas e intercambiar habilidades usando
+puntos de confianza en lugar de dinero.
 
-## About Laravel
+> **Estado: proyecto en desarrollo.** Se construye por sprints de dos semanas con Scrum.
+> La tabla de abajo indica qué está listo y qué falta.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Stack:** Laravel 12 (PHP 8.3) · Inertia.js · Vue 3 · Vite · Pest · SQLite (demo) / PostgreSQL (producción)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Sitio publicado:** https://NOMBRE-DEL-SERVICIO.onrender.com  <!-- reemplazar con la URL real -->
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Estado del proyecto
 
-## Learning Laravel
+| Sprint | Función | Estado |
+|--------|---------|--------|
+| 0 | Repositorio, flujo de ramas, CI y configuración del entorno | ✅ Listo |
+| 1 | Registro e inicio de sesión de vecinos | ✅ Listo (Laravel Breeze) |
+| 2 | Catálogo de herramientas: búsqueda, filtro por categoría, solo disponibles y orden por cercanía | ✅ Pantalla lista |
+| 2 | Publicar una herramienta desde la interfaz | ⏳ Pendiente |
+| 3 | Reservas con calendario | ⏳ Pendiente (el botón «Pedir prestada» es un marcador) |
+| 4 | Chat entre vecinos | ⏳ Pendiente |
+| 5 | Puntos de confianza y reseñas | ⏳ Pendiente |
+| 6 | Notificaciones y recordatorios de devolución | ⏳ Pendiente |
+| 7 | Prueba piloto con vecinos y lanzamiento | ⏳ Pendiente |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Limitaciones conocidas
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- La distancia del catálogo se calcula desde un punto fijo de ejemplo (`config/manovecina.php`); más adelante saldrá de la ubicación aproximada del vecino y de PostGIS.
+- Los datos del catálogo son de ejemplo (se cargan con `php artisan migrate --seed`).
+- En el despliegue de demostración se usa SQLite dentro del contenedor, que se reinicia en cada despliegue.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Pantallas disponibles
 
-## Laravel Sponsors
+| Ruta | Pantalla |
+|------|----------|
+| `/` | Inicio: presentación de ManoVecina |
+| `/herramientas` | Herramientas cerca de ti: catálogo con búsqueda y filtros |
+| `/login`, `/register` | Inicio de sesión y registro |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Requisitos
 
-### Premium Partners
+- Git 2.40 o superior
+- PHP 8.2 o superior y Composer 2
+- Node.js 20 o superior y npm
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Puesta en marcha local
 
-## Contributing
+```bash
+git clone https://github.com/USUARIO/manovecina.git
+cd manovecina
+cp .env.example .env        # en PowerShell: copy .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate --seed
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Después, en dos terminales:
 
-## Code of Conduct
+```bash
+npm run dev
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Abrir http://localhost:8000. Las cuentas de ejemplo son `lucia@manovecina.test`,
+`carlos@manovecina.test`, `rosa@manovecina.test` y `mateo@manovecina.test`,
+todas con contraseña `password`.
 
-## Security Vulnerabilities
+## Pruebas y estilo de código
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan test
+./vendor/bin/pint --test
+```
 
-## License
+## Flujo de trabajo
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Se usa Git Flow simplificado, alineado con los sprints:
+
+| Rama | Propósito |
+|------|-----------|
+| `main` | Código en producción. Cada fusión genera un tag y un despliegue. |
+| `develop` | Integración de las funciones terminadas del sprint. |
+| `feature/*` | Una rama por historia de usuario. Sale de `develop` y vuelve a `develop`. |
+| `release/*` | Preparación de una versión. Sale de `develop` y se fusiona en `main` y `develop`. |
+| `hotfix/*` | Corrección urgente en producción. Sale de `main` y se fusiona en `main` y `develop`. |
+
+Los commits siguen Conventional Commits y las versiones usan versionado semántico.
+Los detalles están en [CONTRIBUTING.md](CONTRIBUTING.md) y el historial de versiones en
+[CHANGELOG.md](CHANGELOG.md).
+
+## Automatización y despliegue
+
+- **CI** (`.github/workflows/ci.yml`): en cada Pull Request instala dependencias, compila los assets, revisa el estilo con Pint y ejecuta las pruebas.
+- **Despliegue** (`.github/workflows/deploy.yml`): al fusionar en `main` se llama al deploy hook de Render, que construye la imagen del `Dockerfile` y publica el sitio.
+
+## Estructura del repositorio
+
+```
+manovecina/
+├── app/                       # modelos y controladores (Herramienta, HerramientaController)
+├── config/manovecina.php      # centro de referencia para calcular distancias
+├── database/                  # migraciones, factories y seeders
+├── resources/js/
+│   ├── Pages/                 # pantallas Vue (Welcome, Herramientas/Index, auth)
+│   └── Components/            # componentes reutilizables (HerramientaCard)
+├── routes/web.php
+├── tests/Feature/             # pruebas con Pest
+├── .github/                   # workflows de CI y despliegue, plantillas de PR e issues
+├── docker/start.sh  Dockerfile  render.yaml
+└── CONTRIBUTING.md  CHANGELOG.md
+```
