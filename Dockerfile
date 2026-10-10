@@ -14,14 +14,10 @@ RUN npm ci && npm run build
 
 # 3) Imagen final: PHP con su servidor integrado (sin Apache)
 FROM php:8.3-cli
-RUN echo "=== DIAGNOSTICO ===" \
- && php -v \
- && if command -v apache2 >/dev/null 2>&1; then \
-      echo "APACHE ENCONTRADO"; apache2 -v; \
-    else \
-      echo "APACHE NO ESTA INSTALADO"; \
-    fi \
- && echo "=== FIN DEL DIAGNOSTICO ==="
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libpq-dev libzip-dev libsqlite3-dev unzip \
+ && docker-php-ext-install pdo_pgsql pdo_sqlite zip opcache \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
 COPY --from=assets /app /var/www/html
