@@ -1,4 +1,4 @@
-﻿# ManoVecina
+# ManoVecina
 
 Plataforma web vecinal para prestar herramientas e intercambiar habilidades usando
 puntos de confianza en lugar de dinero.
@@ -8,6 +8,7 @@ puntos de confianza en lugar de dinero.
 
 **Stack:** Laravel 12 (PHP 8.3) · Inertia.js · Vue 3 · Vite · Pest · SQLite (demo) / PostgreSQL (producción)
 
+**Sitio publicado:** https://NOMBRE-DEL-SERVICIO.onrender.com  <!-- reemplazar con la URL real -->
 
 ## Estado del proyecto
 
